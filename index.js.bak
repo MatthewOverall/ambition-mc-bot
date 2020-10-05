@@ -1,0 +1,195 @@
+const AmbitionClient = require('./src/AmbitionClient')
+const readline = require('readline');
+
+let config;
+try {
+	config = require("./config.json");
+} catch (e) {
+	console.error("Unable to load config");
+	process.exit(1);
+}
+
+const client = new AmbitionClient(config)
+
+client.initAll().then(async () => {
+	console.log('Ambition Client Running...', client)
+})
+
+const rl = readline.createInterface(process.stdin, process.stdout);
+rl.on('line', function (line) {
+    console.log(`you typed ${line}`)
+}).on('close', () => {
+    console.log('closed')
+});
+
+// require('./rcon-test')
+// const child_process = require('child_process');
+// const readline = require('readline');
+// const fs = require('fs');
+// let config = loadConfig();
+// const prefix = config.prefix;
+// const rl = readline.createInterface(process.stdin, process.stdout);
+// let chatbot;
+
+// rl.on('line', function (line) {
+//     parseInput(line);
+//     if (line == "chatbot --start") {
+//         loadChatBot();
+//         return;
+//     }
+//     if (line == "chatbot --kill") {
+//         killChatBot();
+//         return;
+//     }
+//     if (line == "chatbot --reload") {
+//         killChatBot();
+//         loadChatBot();
+//         return;
+//     }
+// }).on('close', () => {
+//     console.log('stopping servers');
+//     for (let k in config.servers) {
+//         stopServer(config.servers[k])
+//     }
+//     killChatBot();
+//     process.exit(0);
+
+// });
+
+// loadChatBot();
+
+// function loadChatBot() {
+//     console.log('starting discord chatbot...');
+//     if (chatbot == null) {
+//         chatbot = child_process.fork('./chatbot.js');
+//         chatbot.on('close', (code) => {
+//             console.log('chatbot shutdown...');
+//             chatbot = null;
+//         });
+//         chatbot.on('message', (m) => {
+//             if (m.command) {
+//                 parseInput(m.command);
+//             }
+//         });
+//         chatbot.send({ hello: 'world' });
+//     }
+// }
+
+// function killChatBot() {
+//     console.log('killing chatbot')
+//     chatbot.kill();
+// }
+
+// function startServer(server) {
+//     if (server.isRunning) return;
+//     console.log(`starting server... ${server.name}`);
+//     server.process = run_script("bash", [server.command], {
+//         cwd: server.cwd
+//     }, function (exit_code) { onServerStopped(server, exit_code) });
+//     server.isRunning = true;
+//     server.restartPending = false;
+// }
+
+// function onServerStopped(server, exit_code) {
+//     console.log(`Process ${server.name} Stopped.`);
+//     console.log('Closing code: ' + exit_code);
+//     server.process = null;
+//     server.isRunning = false;
+//     if (server.isPendingRestart) {
+//         startServer(server);
+//     }
+// }
+
+// function restartServer(server) {
+//     console.log(`restarting server... ${server.name}`);
+//     server.isPendingRestart = true;
+//     stopServer(server);
+// }
+
+// function stopServer(server) {
+//     console.log(`stopping server ...${server.name}`);
+//     sendCommand(server, 'stop');
+// }
+
+// function sendCommand(server, command) {
+
+//     if (server.isRunning && server.process) {
+//         debug(`sending command`);
+//         server.process.stdin.write(command + '\n');
+//     } else {
+//         debug(`Cannot process command ${command}. Server is not running... ${server.name}`);
+//     }
+// }
+
+
+
+
+// // This function will process the input given and 
+// // check to see if the command should be sent to
+// // any of the child processes.
+// function parseInput(input) {
+//     debug(input)
+
+//     if (input.startsWith(config.prefix)) {
+//         input = input.substring(config.prefix.length);
+//         let key = input.split('.')[0];
+//         let server = config.servers[key];
+//         let command = input.replace(`${key}.`, '');
+//         debug(key + "-" + command);
+//         if (!server) {
+//             let message = `Server ${key} not found.`;
+//             console.log(message);
+//             return message;
+//         }
+//         let handled = handleInternalCommand(server, command);
+//         if (!handled) {
+//             sendCommand(server, command)
+//         }
+//     }
+// }
+
+// // handle any internal commands before sending onto the server
+// function handleInternalCommand(server, command) {
+//     if (command == 'start') {
+//         startServer(server);
+//         return true;
+//     } else if (command == 'restart') {
+//         restartServer(server);
+//         return true;
+//     } else if (command == 'stop') {
+//         stopServer(server);
+//         return true;
+//     }
+//     return false;
+// }
+
+
+
+// // This function will output the lines from the script 
+// // AS it runs, AND will call a callback with the exit code when it's done.
+// function run_script(command, args, options, callback) {
+//     console.log("Starting Process.");
+//     var child = child_process.spawn(command, args, options);
+
+//     child.stdout.setEncoding('utf8');
+//     child.stdout.pipe(process.stdout);
+
+//     child.stderr.setEncoding('utf8');
+//     child.stderr.pipe(process.stderr);
+
+//     child.on('close', function (code) {
+//         callback(code);
+//     });
+//     return child;
+// }
+
+// function loadConfig() {
+//     let configJson = fs.readFileSync('./config.json');
+//     let config = JSON.parse(configJson);
+
+//     return config;
+// }
+
+// function debug(message) {
+//     console.debug(message);
+// }
