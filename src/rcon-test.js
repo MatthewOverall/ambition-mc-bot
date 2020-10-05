@@ -6,7 +6,7 @@ async function init() {
 
 
     const rcon = await RconClient.Rcon.connect({
-        host: "mc.boisecodeworks.com", port: 25575, password: "Pizza3.1415"
+        host: "", port: 25575, password: ""
     })
     console.log(await rcon.send("list"))
 
