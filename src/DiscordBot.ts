@@ -47,7 +47,8 @@ export default class DiscordBot extends Discord.Client {
 
     const response = await this.client.onCommandReceived(message, commandData)
     if(!response.isSuccess){
-      message.channel.send(response.errorMessage)
+     let embed = this.client.errorEmbed(response.errorMessage)
+       await message.channel.send(embed)
     }
   }
 }
