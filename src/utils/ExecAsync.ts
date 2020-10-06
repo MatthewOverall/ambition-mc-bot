@@ -1,6 +1,6 @@
 
-const Promise = require('bluebird');
-const sh = require('shelljs');
+import Promise from 'bluebird'
+import sh from 'shelljs'
 
 /**
  * Asynchronously executes a shell command and returns a promise that resolves
@@ -24,14 +24,13 @@ const sh = require('shelljs');
  * @param {Object} opts - Any opts to pass in to exec (see shell.js docs and Node's native `exec` documentation)
  * @returns {String.<Promise>} - Resolves with the command results from `stdout`
  */
-function execAsync(cmd, opts={}) {
-    return new Promise(function(resolve, reject) {
-      // Execute the command, reject if we exit non-zero (i.e. error)
-      sh.exec(cmd, opts, function(code, stdout, stderr) {
-        if (code != 0) return reject(new Error(stderr));
-        return resolve(stdout);
-      });
+export default function execAsync(cmd, opts = {}) {
+  return new Promise(function (resolve, reject) {
+    // Execute the command, reject if we exit non-zero (i.e. error)
+    sh.exec(cmd, opts, function (code, stdout, stderr) {
+      if (code != 0) return reject(new Error(stderr));
+      return resolve(stdout);
     });
-  }
-  
-  module.exports = exports = execAsync;
+  });
+}
+
