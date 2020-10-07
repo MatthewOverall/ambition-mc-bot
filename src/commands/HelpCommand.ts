@@ -6,7 +6,7 @@ export default class HelpCommand extends Command {
     super(client, {
       name: "Help",
       usage: "help",
-      description: "Shows a list of all commands the bot can run.",
+      description: "Displays this panel.",
     })
   }
 
@@ -27,7 +27,9 @@ export default class HelpCommand extends Command {
     console.log(allCommandInfo)
     const embed = this.client.createEmbed()
     embed.setTitle(`Ambitious Bot Help`)
-    embed.setColor(10181046)
+    embed.setColor(0x7ff1e9)
+    embed.setTimestamp()
+    embed.setFooter("No really that's all the commands")
     embed.setDescription(`\u200b`)
     allCommandInfo.forEach(cmdInfo => {
       let lines = [
