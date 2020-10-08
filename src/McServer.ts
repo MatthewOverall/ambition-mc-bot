@@ -17,7 +17,7 @@ export default class McServer {
       })
       this.rcon = rcon
     } catch (e) {
-      console.error(`${this.config.id}: Unable to connect to server.`)
+      console.error(`Unable to connect to ${this.config.id}.`)
     }
     return this.rcon
   }
@@ -41,7 +41,7 @@ export default class McServer {
   }
   async runRconCommand(command: string) {
     await this.getRcon()
-    if (!this.rcon) { throw `${this.config.id}: Unable to connect to server.` }
+    if (!this.rcon) { throw `Unable to connect to **${this.config.id}**.` }
     return await (this.rcon.send(command))
   }
 

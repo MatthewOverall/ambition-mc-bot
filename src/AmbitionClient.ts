@@ -9,6 +9,7 @@ export default class AmbitionClient {
 
   servers: Map<string, McServer> = new Map()
   commands: Map<string, Command> = new Map()
+  channels: any;
 
   constructor(public config: AppConfig) {
     this.config.servers.forEach(s => this.servers.set(s.id, new McServer(s)));
